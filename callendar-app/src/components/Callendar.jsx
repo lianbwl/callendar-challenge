@@ -10,13 +10,14 @@ import DayBox from "./DayBox";
 const Callendar = ({ days }) => {
 
   return (
-    <GridItem width="100%" content="stretch">
-      {days.map((dayinfo) => {
-        return (
-          <DayBox info={dayinfo}></DayBox>
-        )
-      })}
-    </GridItem>
+      <Grid width="100%" direction="column">
+          <GridItem width="100%" flexWrap="wrap">
+            {days.map((dayinfo, index) => (
+                <DayBox key={index} info={dayinfo}></DayBox>
+              )
+            )}
+          </GridItem>
+      </Grid>
   )
 }
 

@@ -23,7 +23,8 @@ export const Grid = styled.div`
 	height: auto;
 	width: ${(props) => props.width || "auto"};
 	flex: ${(props) => props.flex || "0 1 auto"};
-	flex-direction: ${(props) => props.direction || "row"};
+  flex-direction: ${(props) => props.direction || "row"};
+  flex-wrap: ${(props) => props.flexWrap || "unset"};
 	padding: ${(props) => props.padX || "0"} ${(props) => props.padY || "0"};
 
 	${(props) => (props.alignCenter ? "margin: 0 auto" : "none")};
@@ -59,16 +60,17 @@ export const Title = styled.h1`
 
 export const CallendarCell = styled.div`
 	padding: ${sizeBase * 0.4}px;
-  border: solid 1px ${(props) => props.theme.secondary};
-  border-radius: 2px;
-  width: 100%;
+  border: solid 1px ${(props) => props.theme.colors.gray};
+  width: ${(props) => props.width || "auto"};
   height: 120px;
+  flex: ${(props) => props.flex || "auto"};
 
-  .day-number {
+  .day-name {
     display: block;
     font-weight: bold;
     font-size: 12px;
     margin-bottom: 0.7rem;
+    color: ${(props) => props.spanColor || props.theme.colors.gray};
   }
 
 	// EXTERNAL CSS TO BE INJECTED;
@@ -78,13 +80,17 @@ export const CallendarCell = styled.div`
 export const CallendarCellReminder = styled.a`
   display: block;
   cursor: pointer;
-  font-size: 12px;
-  padding: 4px;
+  font-size: 11px;
+  padding: 3px 4px;
+  line-height: 1;
+  font-weight: bold;
   border-radius: 2px;
   background-color: ${(props) => props.reminderColor || "#E3E3E3"};
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  color: #FFFFFF;
+  margin-bottom: 4px;
 
   &:hover { opacity: 0.8; }
 `;

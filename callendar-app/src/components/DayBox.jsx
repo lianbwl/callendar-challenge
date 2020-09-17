@@ -9,31 +9,41 @@ import {
 } from "../styles/components";
 
 const DayBox = ({ info }) => { 
-  console.log(info);
 
-  return (
-      <Grid
-        flex="auto" direction="column" content="stretch" padY="2px">
+  return (  
+      (info.weekday === "Sunday" || info.weekday === "Saturday") ? (
+        <CallendarCell flex="0 1 13%" className="daybox">
           <GridItem width="100%">
-            <CallendarCell className="daybox">
-              <GridItem width="100%">
-                <span className="day-number">{info.day.reminder}</span>
-              </GridItem>
-              <GridItem>
-                <CallendarCellReminder reminderColor="#F55555">
-                  <span>11h00</span> - Walk dog 
-                </CallendarCellReminder>
-              </GridItem>
-            </CallendarCell>
+            <span className="day-name">{info.day} - {info.weekday}</span>
           </GridItem>
-      </Grid>
+
+          {info.reminders.map(x => x.txt ? (
+            <CallendarCellReminder reminderColor="#F55555">
+              <span>{x.time}</span> -  {x.txt}
+            </CallendarCellReminder>
+          ) : (""))}
+        </CallendarCell>
+      ) : (
+        <CallendarCell flex="0 1 13%" className="daybox" spanColor="#0d7edb">
+          <GridItem width="100%">
+            <span className="day-name">{info.day} - {info.weekday}</span>
+          </GridItem>
+
+          {info.reminders.map(x => x.txt ? (
+            <CallendarCellReminder reminderColor="#F55555">
+              <span>{x.time}</span> -  {x.txt}
+            </CallendarCellReminder>
+          ) : (""))}
+        </CallendarCell>
+      )
+    
   )
 }
 
 // https://www.npmjs.com/package/prop-types para ver outros tipos de validacoes
 
-// DayBox.propTypes = {
-// 	data: PropTypes.array.isRequired,
-// };
+DayBox.propTypes = {
+	info: PropTypes.object.isRequired,
+};
 
 export default DayBox;

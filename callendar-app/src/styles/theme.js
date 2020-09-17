@@ -8,11 +8,12 @@ const colors = {
 	sand: "#A79B82",
 	concrete: "#4A4843",
 	white: "#FFFFFF",
-	red: "#D53307",
+  red: "#D53307",
+  blue: "#0d7edb",
 };
 
 export const theme = {
-	main: colors.olive,
+	main: colors.blue,
 	secondary: colors.golden,
 	colors,
 };
