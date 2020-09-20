@@ -1,49 +1,73 @@
-
 import React from "react";
 import PropTypes from "prop-types";
 import {
-	Grid,
   GridItem,
   CallendarCell,
-  CallendarCellReminder
+  CallendarCellReminder,
 } from "../styles/components";
+import DialogBox from "./DialogBox";
+import { useSelector } from "react-redux";
 
-const DayBox = ({ info }) => { 
+const DayBox = ({ dayinfo }) => {
+  const [modalOpen, setOpen] = React.useState(false);
+  const [dayClicked, setDayClicked] = React.useState("");
+  const [reminderText, setReminderText] = React.useState("");
+  const daystate = useSelector(state => state);
 
-  return (  
-      (info.weekday === "Sunday" || info.weekday === "Saturday") ? (
-        <CallendarCell flex="0 1 13%" className="daybox">
-          <GridItem width="100%">
-            <span className="day-name">{info.day} - {info.weekday}</span>
-          </GridItem>
+  const handleModalClose = () => {
+    setOpen(false);
+  };
 
-          {info.reminders.map(x => x.txt ? (
-            <CallendarCellReminder reminderColor="#F55555">
-              <span>{x.time}</span> -  {x.txt}
-            </CallendarCellReminder>
-          ) : (""))}
-        </CallendarCell>
-      ) : (
-        <CallendarCell flex="0 1 13%" className="daybox" spanColor="#0d7edb">
-          <GridItem width="100%">
-            <span className="day-name">{info.day} - {info.weekday}</span>
-          </GridItem>
+  const handleModalOpen = () => {
+    setOpen(true);
+  };
 
-          {info.reminders.map(x => x.txt ? (
-            <CallendarCellReminder reminderColor="#F55555">
-              <span>{x.time}</span> -  {x.txt}
-            </CallendarCellReminder>
-          ) : (""))}
-        </CallendarCell>
-      )
-    
-  )
-}
+  const handleDayClicked = (day) => {
+    setDayClicked(day);
+  };
+
+  const handleReminderText = (event) => {
+    setReminderText(event.target.value);
+  };
+
+  return (
+    <CallendarCell flex="0 1 13%" className="daybox">
+      <GridItem width="100%">
+        <span className="day-name">
+          {dayinfo.day} - {dayinfo.weekday}
+        </span>
+      </GridItem>
+
+      {(daystate.day === dayinfo.day && daystate.data.length > 0) && 
+        daystate.data.map((x, index) => (
+          <CallendarCellReminder key={index} reminderColor="#F55555">
+            {x.reminder_txt}
+          </CallendarCellReminder>
+        ))
+      }
+
+      <a
+        className="plus-reminder"
+        onClick={() => {
+          handleModalOpen();
+          handleDayClicked(dayinfo.day);
+        }}>
+        + reminder
+      </a>
+
+      <DialogBox
+        isOpen={modalOpen}
+        day={dayClicked}
+        reminder={reminderText}
+        handleReminder={handleReminderText}
+        closeDialog={handleModalClose}></DialogBox>
+    </CallendarCell>
+  );
+};
 
 // https://www.npmjs.com/package/prop-types para ver outros tipos de validacoes
-
 DayBox.propTypes = {
-	info: PropTypes.object.isRequired,
+  dayinfo: PropTypes.object.isRequired,
 };
 
 export default DayBox;

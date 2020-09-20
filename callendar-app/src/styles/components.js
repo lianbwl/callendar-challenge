@@ -59,7 +59,8 @@ export const Title = styled.h1`
 `;
 
 export const CallendarCell = styled.div`
-	padding: ${sizeBase * 0.4}px;
+  padding: ${sizeBase * 0.4}px;
+  position: relative;
   border: solid 1px ${(props) => props.theme.colors.gray};
   width: ${(props) => props.width || "auto"};
   height: 120px;
@@ -71,6 +72,27 @@ export const CallendarCell = styled.div`
     font-size: 12px;
     margin-bottom: 0.7rem;
     color: ${(props) => props.spanColor || props.theme.colors.gray};
+  }
+
+  .plus-reminder {
+    display: block;
+    font-size: 11px;
+    position: absolute;
+    bottom: 4px;
+    right: 4px;
+    padding: 3px 6px;
+    font-weight: bold;
+    line-height: 1;
+    border-radius: 3px;
+    color: ${(props) => props.theme.colors.white};
+    text-align: right;
+    background: ${(props) => props.theme.colors.red};
+
+    cursor: pointer;
+
+    &:hover {
+      background: ${(props) => props.theme.colors.coral};
+    }
   }
 
 	// EXTERNAL CSS TO BE INJECTED;

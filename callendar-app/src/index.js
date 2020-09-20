@@ -1,14 +1,20 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux'
+import { createStore } from "redux";
+import reducer from "./reminders.js";
 import './index.scss';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
+const rootElement = document.getElementById("root");
+const reminders = createStore(reducer);
+
 ReactDOM.render(
-  <React.StrictMode>
+  <Provider store={reminders}>
     <App />
-  </React.StrictMode>,
-  document.getElementById('root')
+  </Provider>,
+  rootElement
 );
 
 // If you want your app to work offline and load faster, you can change
