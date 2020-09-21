@@ -71,7 +71,7 @@ export const CallendarCell = styled.div`
     font-weight: bold;
     font-size: 12px;
     margin-bottom: 0.7rem;
-    color: ${(props) => props.spanColor || props.theme.colors.gray};
+    color: ${(props) => (props.weekend ? props.theme.colors.gray : props.theme.main)};
   }
 
   .plus-reminder {

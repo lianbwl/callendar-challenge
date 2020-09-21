@@ -10,10 +10,12 @@ import {
 import { Grid, GridItem, Button } from "../styles/components";
 import { useDispatch } from "react-redux";
 
-const DialogBox = ({ isOpen, day, reminder, handleReminder, closeDialog }) => {
+const DialogBox = ({ isOpen, day, closeDialog }) => {
+  const [reminder, setReminder] = React.useState("");
   const [reminderColor, setReminderColor] = React.useState("blue");
+  const [time, setTime] = React.useState("");
+  const [city, setCity] = React.useState("");
   const dispatch = useDispatch();
-
   const colors = [
     {
       colorName: "blue", 
@@ -33,8 +35,25 @@ const DialogBox = ({ isOpen, day, reminder, handleReminder, closeDialog }) => {
     }
   ];
 
-  const handleColorChange = (event) => {
+  const handleReminder = (event) => {
+    let str = event.target.value;
+    if (str.length > 30) {
+      event.preventDefault();
+    } else {
+      setReminder(event.target.value);
+    }
+  };
+
+  const handleReminderColor = (event) => {
     setReminderColor(event.target.value);
+  };
+
+  const handleTime = (event) => {
+    setTime(event.target.value);
+  }
+
+  const handleCity = (event) => {
+    setCity(event.target.value);
   }
 
   return (
@@ -53,17 +72,27 @@ const DialogBox = ({ isOpen, day, reminder, handleReminder, closeDialog }) => {
           </GridItem>
           <Grid width="100%" gapX="20px">
             <GridItem width="35%">
-              <TextField type="time" label="Time" fullWidth={true} />
+              <TextField 
+                type="time" 
+                label="Time" 
+                fullWidth={true} 
+                value={time}
+                onChange={handleTime} />
             </GridItem>
             <GridItem width="35%">
-              <TextField type="text" label="City" fullWidth={true} />
+              <TextField 
+                type="text" 
+                label="City" 
+                fullWidth={true} 
+                value={city}
+                onChange={handleCity}/>
             </GridItem>
             <GridItem width="30%">
               <TextField
                 select
                 label="Reminder Color"
                 value={reminderColor}
-                onChange={handleColorChange}
+                onChange={handleReminderColor}
                 fullWidth={true}>
                 {colors.map((option) => (
                   <MenuItem key={option.color} value={option.color}>
@@ -81,12 +110,12 @@ const DialogBox = ({ isOpen, day, reminder, handleReminder, closeDialog }) => {
         </Button>
         <Button
           color="warn"
-          onClick={() =>
+          onClick={() => {
             dispatch({
               type: "DAY",
-              dados: { day: day, reminder_txt: reminder, color: reminderColor },
-            })
-          }>
+              dados: { day: day, time: time, city: city, reminder_txt: reminder, color: reminderColor },
+            }); closeDialog();
+          }}>
           Save
         </Button>
       </DialogActions>

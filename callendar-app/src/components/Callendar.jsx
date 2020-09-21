@@ -5,13 +5,22 @@ import DayBox from "./DayBox";
 
 const Callendar = ({ days }) => {
 
+  const isWeekend = (weekday) => {
+    if (weekday === "Saturday" || weekday === "Sunday") {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   return (
     <Grid width="100%" direction="column">
       <GridItem width="100%" flexWrap="wrap">
         {days.map((day, index) => (
           <DayBox
             key={index}
-            dayinfo={day}></DayBox>
+            dayinfo={day}
+            isWeekendProp={isWeekend(day.weekday)}></DayBox>
         ))}
       </GridItem>  
     </Grid>

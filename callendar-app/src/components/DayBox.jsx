@@ -6,13 +6,15 @@ import {
   CallendarCellReminder,
 } from "../styles/components";
 import DialogBox from "./DialogBox";
+import DialogReminder from "./DialogReminder";
 import { useSelector } from "react-redux";
 
-const DayBox = ({ dayinfo }) => {
+const DayBox = ({ dayinfo, isWeekendProp }) => {
   const [modalOpen, setOpen] = React.useState(false);
+  const [modalReminder, setReminderOpen] = React.useState(false);
   const [dayClicked, setDayClicked] = React.useState("");
-  const [reminderText, setReminderText] = React.useState("");
-  const daystate = useSelector(state => state);
+  const [reminderClicked, setReminderClicked] = React.useState([])
+  const daystate = useSelector((state) => state);
 
   const handleModalClose = () => {
     setOpen(false);
@@ -22,26 +24,37 @@ const DayBox = ({ dayinfo }) => {
     setOpen(true);
   };
 
+  const handleModalReminderClose = () => {
+    setReminderOpen(false);
+  };
+
+  const handleModalReminderOpen = (id) => {
+    const dayReminder = daystate.filter(x => { return (x.id === id) });
+    setReminderClicked(dayReminder[0]);
+    setReminderOpen(true);
+  };
+
   const handleDayClicked = (day) => {
     setDayClicked(day);
   };
 
-  const handleReminderText = (event) => {
-    setReminderText(event.target.value);
-  };
+  console.log(isWeekendProp)
 
   return (
-    <CallendarCell flex="0 1 13%" className="daybox">
+    <CallendarCell flex="0 1 13%" className="daybox" weekend={isWeekendProp}>
       <GridItem width="100%">
         <span className="day-name">
           {dayinfo.day} - {dayinfo.weekday}
         </span>
       </GridItem>
 
-      {daystate.map((x, index) => (x.day === dayinfo.day) && 
-        <CallendarCellReminder key={index} reminderColor={x.color}> 
-          {x.reminder_txt}
-        </CallendarCellReminder>
+      {daystate.map(
+        (x, index) =>
+          x.day === dayinfo.day && (
+            <CallendarCellReminder key={index} reminderColor={x.color} onClick={() => {handleModalReminderOpen(x.id)}}>
+              {x.time} - {x.reminder_txt}
+            </CallendarCellReminder>
+          )
       )}
 
       <a
@@ -56,9 +69,12 @@ const DayBox = ({ dayinfo }) => {
       <DialogBox
         isOpen={modalOpen}
         day={dayClicked}
-        reminder={reminderText}
-        handleReminder={handleReminderText}
         closeDialog={handleModalClose}></DialogBox>
+
+      <DialogReminder
+        isOpen={modalReminder}
+        handleClose={handleModalReminderClose}
+        reminder={reminderClicked}></DialogReminder>
     </CallendarCell>
   );
 };
