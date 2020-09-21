@@ -1,9 +1,10 @@
-function reducer(state, action) {
-  console.log(action)
-  return {
-    day: action.day,
-    data: action.dados ? [...action.dados] : [],
-  };
+const reminders = (state = [], action) => {
+  switch(action.type){
+      case "DAY":
+          return [...state, action.dados]
+      default: 
+          return state
+  }
 }
 
-export default reducer;
+export default reminders;

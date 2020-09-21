@@ -44,9 +44,8 @@ const DialogBox = ({isOpen, day, reminder, handleReminder, closeDialog}) => {
           color="warn"
           onClick={() =>
             dispatch({
-              type: "Day",
-              day: day,
-              dados: [{ reminder_txt: reminder }],
+              type: "DAY",
+              dados: {day: day, reminder_txt: reminder },
             })
           }>
           Save

@@ -2,16 +2,16 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux'
 import { createStore } from "redux";
-import reducer from "./reminders.js";
+import reminders from "./reminders.js";
 import './index.scss';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
 const rootElement = document.getElementById("root");
-const reminders = createStore(reducer);
+const reminderstore = createStore(reminders);
 
 ReactDOM.render(
-  <Provider store={reminders}>
+  <Provider store={reminderstore}>
     <App />
   </Provider>,
   rootElement
