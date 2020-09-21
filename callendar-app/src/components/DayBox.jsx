@@ -39,7 +39,7 @@ const DayBox = ({ dayinfo }) => {
       </GridItem>
 
       {daystate.map((x, index) => (x.day === dayinfo.day) && 
-        <CallendarCellReminder key={index} reminderColor="#F55555"> 
+        <CallendarCellReminder key={index} reminderColor={x.color}> 
           {x.reminder_txt}
         </CallendarCellReminder>
       )}
